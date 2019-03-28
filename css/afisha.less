@@ -49,12 +49,13 @@
 .af_row_body{	
 	padding: 0 .5rem;
 }
-.af_row_body_img{
+.af_row_body_max{
+	display: none;
+	
 	img{
 		max-width: 100%;
 		min-height: 2rem;
 		display: block;
-		display: none;
 		//margin: 1rem auto 2rem auto;
 		position: relative;
 		text-align: left;
@@ -87,7 +88,7 @@
 	}
 }
 
-.af_row_body_name{
+.af_row_body_min{
 	font-weight: bold;
 	font-size: 140%;
 	margin: 0 0 .5rem;
@@ -108,6 +109,7 @@
 
 .af_row_body_info{
 	margin: .5rem 0;
+	width: 100%;
 }
 
 .af_row_panel{
@@ -115,6 +117,53 @@
 	a{
 		text-decoration: none;
 	}
+}
+.af_editor,
+.af_editor_table{
+	width: 100%;
+}
+.af_editor_footer{
+	padding: 1.5em 0 0
+	display: flex;
+	justify-content: space-between;
+}
+
+.btn_cancel,
+.btn_submit{
+	border-radius: 3px;
+	padding: .3em;
+	border: 1px solid #bbb;
+	cursor: pointer;
+	transition: background .3s, bordr .3s;
+}
+.btn_cancel{
+	color: white;
+	background: @cancel_color;
+	border-color: darken(@cancel_color, 10%);
+	&:hover {
+		background-color: lighten(@cancel_color, 10%);
+		border-color: @cancel_color;
+	}
+	&:active {
+		background: @cancel_color;
+		border-color: darken(@cancel_color, 10%);
+		outline: none;
+	}
+}
+.btn_submit{
+	color: white;
+	background: @submit_color;
+	border-color: darken(@submit_color, 10%);
+	&:hover {
+		background-color: lighten(@submit_color, 10%);
+		border-color: @submit_color;
+	}
+	&:active {
+		background: @submit_color;
+		border-color: darken(@submit_color, 10%);
+		outline: none;
+	}
+	
 }
 
 
@@ -176,10 +225,10 @@
 		flex-grow: 3;
 		text-align: center;
 	}
-	.af_row_body_name{
+	.af_row_body_min{
 		display: none;
 	}
-	.af_row_body_img img{
+	.af_row_body_max{
 		width: 100%;
 		display: block;
 	}

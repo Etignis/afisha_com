@@ -42,14 +42,46 @@
 					:time="item.time"
 					:place="item.place"
 					:age_limit="item.age_limit"
+					@edit="editItem($event)"
 				>
 				</af_item>
 			</af_month>			
 		</div>
-
-			
+		
+		<div class="af_new_panel">
+			<button
+				@click="addPlay">
+				Добавить спектакль
+			</button>
 		</div>
 		
+		<transition name="fade">
+			<modal-win
+				v-show="bModalWinShow"
+				@close="closeModWin"
+			>
+				<af_editor
+					ref="af_editor"
+					:mode="editor.mode"
+					:id="editor.data.id"
+					:name="editor.data.name"
+					:info="editor.data.info"
+					:place="editor.data.place"
+					:age_limit="editor.data.age_limit"
+					:date="editor.data.dt"
+					:time="editor.data.tm"
+					
+					:plays="aPlays"
+					:ages="aAges"
+					:places="aPlaces"
+					
+					@cancel="closeModWin"
+					@submit="saveEdited($event)"
+					>
+				</af_editor>
+			</modal-win>
+		</transition>
+			
 	</div>
 
 
