@@ -49,13 +49,18 @@ Vue.component('combobox', {
 		return {
 			listVisible: false,
 			innerId: "",
-			filteredList: []
+			filteredList: [],
+			innerValue: ""
 		};
 	},
 	methods: {
 		input: function(){
 			this.filterList();
-			this.$emit("input", this.value);
+			this.$emit("input", this._formatValue(this.value));
+		},
+		_formatValue: function(sVal) {
+			this.value = this.value.replace(/\D+/g, "")+"+";;
+			return this.value;
 		},
 		select: function(sText){
 			//this.value = sText;
@@ -74,11 +79,19 @@ Vue.component('combobox', {
 		},
 		toggleList: function(){
 			this.listVisible = !this.listVisible;
+		},
+		hideList: function() {
+			this.listVisible = false;
 		}
 	},
 	computed: {
-		value: function(){
-			return this.val;
+		value: {
+			get: function(){
+				return this.innerValue || this.val;
+			},
+			set: function(sVal){
+				this.innerValue = sVal;
+			}
 		}
 	},
 	created: function(){
@@ -93,7 +106,8 @@ Vue.component('combobox', {
 			type="text" 
 			:ref="innerId"
 			v-model="value" 
-			@input="input">
+			@input="input"
+			@blur="hideList">
 		<button
 			@click="toggleList"
 		>▼</button>
@@ -229,10 +243,10 @@ Vue.component('af_editor', {
 		submit: function() {
 			var oData = {
 				afisha_id: this.id,
-				play_id: this.selectedPlayId,
+				play_id: this.innerPlayId,
 				date: this.innerDate,
 				time: this.innerTime,
-				info: this.innerlInfo,
+				info: this.innerInfo,
 				place: this.innerPlace,
 				age: this.innerAge
 			};
