@@ -54,17 +54,15 @@ Vue.component('combobox', {
 		};
 	},
 	methods: {
-		input: function(){
+		input: function(e){
 			this.filterList();
-			this.$emit("input", this._formatValue(this.value));
-		},
-		_formatValue: function(sVal) {
-			this.value = this.value.replace(/\D+/g, "")+"+";;
-			return this.value;
+			this.$emit("input", e.target.value /*this.value || arguments[0].data*/);
+			//this.$emit('input', +e.target.value);
 		},
 		select: function(sText){
 			//this.value = sText;
 			this.listVisible = false;
+			//this.value = sText;
 			this.$emit("input", sText);
 		},
 		filterList: function() {
@@ -72,16 +70,25 @@ Vue.component('combobox', {
 			let oInput =  this.$refs[this.innerId];
 			
 			if(oInput && oInput === document.activeElement) {
-				oRet = this.value.length>1? this.list.filter(el => el.trim().toUpperCase().indexOf(this.value.trim().toUpperCase())>-1) :this.list;
+				oRet = this.value.length>0? this.list.filter(el => el.trim().toUpperCase().indexOf(this.value.trim().toUpperCase())>-1) :this.list;
 			}
 			this.listVisible = oRet.length > 0;
 			this.filteredList = oRet;
 		},
 		toggleList: function(){
 			this.listVisible = !this.listVisible;
+			if(this.listVisible) {
+				let oInput =  this.$refs[this.innerId];
+				oInput.focus();
+			}
 		},
 		hideList: function() {
-			this.listVisible = false;
+			setTimeout(
+				function(){
+					this.listVisible = false;
+				}.bind(this), 
+				300
+			);
 		}
 	},
 	computed: {
@@ -105,7 +112,7 @@ Vue.component('combobox', {
 		<input 
 			type="text" 
 			:ref="innerId"
-			v-model="value" 
+			:value="value" 
 			@input="input"
 			@blur="hideList">
 		<button
@@ -124,8 +131,6 @@ Vue.component('combobox', {
 	</div>
 </div>`
 });
-
-
 
 Vue.component('af_month', {
 	props: {		
@@ -166,7 +171,7 @@ Vue.component('af_editor', {
 	props: {		
 		mode: {
 			type: String,
-			default: "add"
+			default: "addPlay"
 		},
 		id: {
 			type: String,
@@ -210,31 +215,21 @@ Vue.component('af_editor', {
 		return {
 			selectedPlayId: "",
 			//infoText: "",
+			localName: "",
 			localDate: "",
-			localTime: "",
+			localTime: "18:00:00",
 			localPlace: "",
 			localAge: "",
 			localInfo: ""
 		};
 	},
 	methods: {
-		init: function() {
-			/*/
-			let oPlay = this.plays.find(el => el.name == this.name);
-			this.selectedPlayId = oPlay? oPlay.id : "";
-			this.infoText = this.info.replace(/\|\|/g, "\n");
-			this.innerDate = this.date;
-			this.innerTime = this.time || "18:00:00";
-			this.innerPlace = this.place;
-			this.innerAge = this.age_limit;
-			/**/
-		},
 		
 		placeChanged: function(sText) {
 			this.innerPlace = sText;
 		},
 		ageChanged: function(sText) {
-			this.innerAge = sText;
+			this.innerAge = sText.replace(/\D+/g, "")+"+";
 		},
 		
 		cancel: function() {
@@ -244,11 +239,13 @@ Vue.component('af_editor', {
 			var oData = {
 				afisha_id: this.id,
 				play_id: this.innerPlayId,
+				name: this.innerName,
 				date: this.innerDate,
 				time: this.innerTime,
 				info: this.innerInfo,
 				place: this.innerPlace,
-				age: this.innerAge
+				age: this.innerAge,
+				mode: this.mode
 			};
 			this.$emit('submit', oData);
 		},
@@ -269,11 +266,18 @@ Vue.component('af_editor', {
 			return this.infoText? this.infoText.split(/[\r\n]+/).length+1 : 2;
 		},
 		
-		editMode: function() {
+		isEdit: function() {
 			return this.mode == "edit";
 		},
-		addMode: function() {
-			return this.mode == "add";
+		isAdd: function() {
+			return !this.isEdit;
+		},
+		
+		addPlayMode: function() {
+			return this.mode == "addPlay";
+		},
+		addEventMode: function() {
+			return this.mode == "addEvent";
 		},
 		
 		innerInfo: {
@@ -282,6 +286,14 @@ Vue.component('af_editor', {
 			},
 			set: function(sVal) {
 				this.localInfo = sVal;
+			}
+		},
+		innerName: {
+			get: function() {
+				return this.localName || this.name;
+			},
+			set: function(sVal) {
+				this.localName = sVal;
 			}
 		},
 		innerDate: {
@@ -338,7 +350,7 @@ Vue.component('af_editor', {
 	},
 	template: `<div class='af_editor'>
 	<table class='af_editor_table'>
-		<tr>
+		<tr v-show="addPlayMode">
 			<td width="1">
 				Спектакль
 			</td>
@@ -351,6 +363,14 @@ Vue.component('af_editor', {
 					{{item.name}}
 					</option>
 				</select>
+			</td>
+		</tr>
+		<tr v-show="addEventMode">
+			<td width="1">
+				Событие
+			</td>
+			<td>
+				<input type="text" v-model="innerName">
 			</td>
 		</tr>
 		<tr>
@@ -410,10 +430,10 @@ Vue.component('af_editor', {
 		<button class="btn_cancel" @click="cancel">
 			Отменить
 		</button>
-		<button class="btn_submit" @click="submit" v-show="editMode">
+		<button class="btn_submit" @click="submit" v-show="isEdit">
 			Сохранить
 		</button>
-		<button class="btn_submit" @click="submit" v-show="addMode">
+		<button class="btn_submit" @click="submit" v-show="isAdd">
 			Добавить
 		</button>
 	</div>
@@ -739,7 +759,7 @@ var app = new Vue({
 	},
 	methods: {
 		showEditor: function(){
-			this.$refs.af_editor.init();
+		//	this.$refs.af_editor.init();
 			this.bModalWinShow = true;
 		},
 		closeModWin: function(){
@@ -778,7 +798,13 @@ var app = new Vue({
 		
 		addPlay: function() {
 			this._clearEditor();
-			this.editor.node="add";
+			this.editor.mode="addPlay";
+			this.showEditor();
+		},
+		
+		addEvent: function() {
+			this._clearEditor();
+			this.editor.mode="addEvent";
 			this.showEditor();
 		}
 	}
