@@ -441,8 +441,9 @@
   }
   .af_row_datetime {
     flex-direction: column;
-    width: 6em;
+    width: 7em;
     justify-content: start;
+    flex-shrink: 0;
   }
   .af_row_date {
     flex-direction: column;
