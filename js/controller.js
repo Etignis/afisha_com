@@ -544,7 +544,7 @@ Vue.component('af_item', {
 			return this.info.replace(/\|\|/g, "<br>");
 		},
 		formatted_age_limit: function() {
-			return this.age_limit.replace(/\D/g, "")+ "+";
+			return this.age_limit?this.age_limit.replace(/\D/g, "")+ "+" : "";
 		},
 		shown: function(){
 			return !this.editMode;
