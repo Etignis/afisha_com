@@ -28,7 +28,7 @@
     align-items: stretch;
 }
 .af_row_datetime{
-	flex-basis: 70px;
+	flex-basis: 120px;
 	flex-grow: 1;
 	display: flex;
 	flex-wrap: wrap;
@@ -45,13 +45,13 @@
 	font-weight: bold;
 }
 .af_row_date_val{
-	margin-right: .2em
-}
-.af_row_date_val{
-		&::after{
-			content: ", ";
-		}
+	margin-right: .2em;
+	white-space: nowrap;
+
+	&::after{
+		content: ", ";
 	}
+}
 
 .af_row_time{
 	flex-basis: 30px;
