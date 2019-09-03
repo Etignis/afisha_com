@@ -545,10 +545,10 @@ Vue.component('af_item', {
 		},
 		formatted_age_limit: function() {
 			return this.age_limit.replace(/\D/g, "")+ "+";
+		},
+		shown: function(){
+			return !this.editMode;
 		}
-	shown: function(){
-		return !this.editMode;
-	}
 	},
 	created: function(){
 		
