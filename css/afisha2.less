@@ -1,0 +1,184 @@
+.afisha_wrap{
+
+}
+.af_month{
+}
+.af_month_title{
+
+}
+.af_month_title_val{
+	font-weight: bold;
+	text-transform: uppercase;
+	background: @bg_3;
+	padding: 1em;
+	text-align: center;
+}
+.af_row{
+	background: @bg_1;
+	padding: .5rem 0;
+	
+	&:nth-child(odd){
+		background: @bg_2;
+	}
+}
+.af_row_content{
+	    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: stretch;
+}
+.af_row_datetime{
+	flex-basis: 70px;
+	flex-grow: 1;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: start;
+	flex-shrink: 0;
+	padding-bottom: 1em;
+}
+.af_row_date{
+	flex-basis: 40px;
+	flex-grow: 2;
+	padding: .5em;
+}
+.af_row_date_val, .af_row_time_val{
+	font-weight: bold;
+}
+.af_row_date_val{
+	margin-right: .2em
+}
+.af_row_date_val{
+		&::after{
+			content: ", ";
+		}
+	}
+
+.af_row_time{
+	flex-basis: 30px;
+	flex-grow: 1;
+	padding: .5em;
+}
+
+.af_row_body{	
+	flex-basis: 400px;
+	padding: .5em;
+	flex-grow: 1;
+	flex-shrink: 4;
+}
+.af_row_body_max{
+	display: none;
+	
+	img{
+		max-width: 100%;
+		min-height: 2rem;
+		display: block;
+		//margin: 1rem auto 2rem auto;
+		position: relative;
+		text-align: left;
+		white-space: pre-wrap;
+		background-color:rgba(250,250,250, 1);
+		
+		&::before, &::after {
+			display: inherit;
+			position: absolute;
+			width: 100%;
+		}
+		
+		&::after {
+			content: attr(alt) !important;
+			padding: 0 /*1rem*/;
+			transform: translateY(-50%);
+			top: 50%;
+			font-weight: bold;
+			font-size: 140%;
+		}
+		
+		&::before {
+			content: "" !important;
+			background: inherit !important;
+			font-size: 0; // fix for firefox
+			height: 100%;
+			outline: 2px #f3f3f3 dashed;
+			outline-offset: -2px;
+		}
+	}
+}
+
+.af_row_body_min{
+	font-weight: bold;
+	font-size: 140%;
+	margin: 0 0 .5rem;
+	a{
+		text-decoration: none;
+	}
+}
+
+.af_row_body_autor_type{
+	display: flex;
+}
+
+.af_row_body_author{
+	&:after{
+		content: ", "
+	}
+}
+
+.af_row_body_info{
+	margin: .5rem 0;
+	width: 100%;
+}
+
+.af_row_panel{
+	text-align: right;
+	a{
+		text-decoration: none;
+	}
+}
+
+/*-------------------*/
+.af_editor,
+.af_editor_table{
+	width: 100%;
+}
+.af_editor_footer{
+	padding: 1.5em 0 0;
+	display: flex;
+	justify-content: space-between;
+}
+
+.btn_cancel,
+.btn_submit{
+	border-radius: 3px;
+	padding: .3em;
+	border: 1px solid #bbb;
+	cursor: pointer;
+	transition: background .3s, bordr .3s;
+}
+.btn_cancel{
+	color: white;
+	background: @cancel_color;
+	border-color: darken(@cancel_color, 10%);
+	&:hover {
+		background-color: lighten(@cancel_color, 10%);
+		border-color: @cancel_color;
+	}
+	&:active {
+		background: @cancel_color;
+		border-color: darken(@cancel_color, 10%);
+		outline: none;
+	}
+}
+.btn_submit{
+	color: white;
+	background: @submit_color;
+	border-color: darken(@submit_color, 10%);
+	&:hover {
+		background-color: lighten(@submit_color, 10%);
+		border-color: @submit_color;
+	}
+	&:active {
+		background: @submit_color;
+		border-color: darken(@submit_color, 10%);
+		outline: none;
+	}
+}

@@ -229,7 +229,13 @@ Vue.component('af_editor', {
 			this.innerPlace = sText;
 		},
 		ageChanged: function(sText) {
-			this.innerAge = sText.replace(/\D+/g, "")+"+";
+			sText = sText.replace(/\D+/g, "");
+			if(sText.length>0) {
+				this.innerAge = sText.replace(/\D+/g, "")+"+";
+			} else {
+				this.innerAge = sText;
+			}
+			
 		},
 		
 		cancel: function() {
@@ -330,7 +336,7 @@ Vue.component('af_editor', {
 		},
 		innerPlayId: {
 			get: function() {
-				let oPlay = this.plays.find(el => el.name == this.name);
+				let oPlay = this.plays.find(el => el.play == this.name);
 				return this.selectedPlayId || (oPlay? oPlay.id : "");
 			},
 			set: function(sVal) {
@@ -351,6 +357,21 @@ Vue.component('af_editor', {
 	template: `<div class='af_editor'>
 	<table class='af_editor_table'>
 		<tr v-show="addPlayMode">
+			<td width="1">
+				Спектакль
+			</td>
+			<td>
+				<select v-model="innerPlayId">
+					<option
+						v-for="item in plays"
+						:value="item.id"
+					>
+					{{item.play}}
+					</option>
+				</select>
+			</td>
+		</tr>
+		<tr v-show="isEdit">
 			<td width="1">
 				Спектакль
 			</td>
@@ -564,7 +585,7 @@ Vue.component('af_item', {
 					{{place}}
 				</div>
 				<div class='af_row_body_age_limit'>
-					{{age_limit}}
+					{{age_limit}}+
 				</div>
 			</div>
 		</div>
@@ -810,6 +831,7 @@ var app = new Vue({
 		editItem: function(nItemId){
 			this._clearEditor();
 			var oItem = this.aAfishaItems.find(el => el.id==nItemId);
+			oItem.name = oItem.play;
 			if(oItem) {
 				for( let key in this.editor.data) {
 					this.editor.data[key] = String(oItem[key]);
