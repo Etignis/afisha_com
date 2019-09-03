@@ -509,6 +509,10 @@ Vue.component('af_item', {
 		age_limit: {
 			type: String,
 			default: ""
+		},
+		enable_editor: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data: function(){
@@ -539,6 +543,9 @@ Vue.component('af_item', {
 		formattedInfo: function(){
 			return this.info.replace(/\|\|/g, "<br>");
 		},
+		formatted_age_limit: function() {
+			return this.age_limit.replace(/\D/g, "")+ "+";
+		}
 	shown: function(){
 		return !this.editMode;
 	}
@@ -585,14 +592,14 @@ Vue.component('af_item', {
 					{{place}}
 				</div>
 				<div class='af_row_body_age_limit'>
-					{{age_limit}}+
+					{{formatted_age_limit}}
 				</div>
 			</div>
 		</div>
-		<div class='af_row_panel'>
-			<a href="" @click.stop.prevent="edit">Редактировать</a>
-			<a href="">Скрыть</a>
-			<a href="">Удалить</a>
+		<div class='af_row_panel' v-if="enable_editor">
+			<a href="#" @click.stop.prevent="edit">Редактировать</a>
+			<a href="#">Скрыть</a>
+			<a href="#">Удалить</a>
 		</div>
 	</div>
 	<div class='af_row_editor' v-if="editMode">

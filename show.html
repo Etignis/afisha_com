@@ -1,0 +1,33 @@
+
+	<div id="app">
+
+		<div class='afisha_wrap'>
+			<af_month
+				v-for="month in aAfisha"
+				:key="month.month"
+				:month="month.month"
+				>
+				<af_item
+					v-for="item in month.items"
+					:key="item.id"
+					:name="item.play"
+					:info="item.info"
+					:autor="item.autor"
+					:type="item.style"
+					:link="item.link"
+					:img="item.img"
+					:day_date="item.day_date"
+					:day_name="item.day_name"
+					:time="item.time"
+					:place="item.place"
+					:age_limit="item.age_limit"
+				>
+				</af_item>
+			</af_month>			
+		</div>
+		
+		
+	</div>
+
+
+

@@ -1,0 +1,73 @@
+
+	<div id="app">
+
+		<div class='afisha_wrap'>
+			<af_month
+				v-for="month in aAfisha"
+				:key="month.month"
+				:month="month.month"
+				>
+				<af_item
+					v-for="item in month.items"
+					:key="item.id"
+					:id="item.id"
+					:name="item.play"
+					:info="item.info"
+					:autor="item.autor"
+					:type="item.style"
+					:link="item.link"
+					:img="item.img"
+					:day_date="item.day_date"
+					:day_name="item.day_name"
+					:time="item.time"
+					:place="item.place"
+					:age_limit="item.age_limit"
+					enable_editor="true"
+					@edit="editItem($event)"
+				>
+				</af_item>
+			</af_month>			
+		</div>
+		
+		<div class="af_new_panel">
+			<button
+				@click="addPlay">
+				Добавить спектакль
+			</button>
+			<button
+				@click="addEvent">
+				Добавить другое мероприятие
+			</button>
+		</div>
+		
+		<transition name="fade">
+			<modal-win
+				v-show="bModalWinShow"
+				@close="closeModWin"
+			>
+				<af_editor
+					ref="af_editor"
+					:mode="editor.mode"
+					:id="editor.data.id"
+					:name="editor.data.name"
+					:info="editor.data.info"
+					:place="editor.data.place"
+					:age_limit="editor.data.age_limit"
+					:date="editor.data.dt"
+					:time="editor.data.tm"
+					
+					:plays="aPlays"
+					:ages="aAges"
+					:places="aPlaces"
+					
+					@cancel="closeModWin"
+					@submit="saveEdited($event)"
+					>
+				</af_editor>
+			</modal-win>
+		</transition>
+			
+	</div>
+
+
+
