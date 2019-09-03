@@ -756,7 +756,6 @@ var app = new Vue({
 					return 1;
 				return 0;
 			}).forEach(function(el){
-				el.day_date = el.day_date.replace(/\s+/g, "	 ");
 				let sLocalMonth = el.dt.substr(5, 2);
 				if(sMonth != sLocalMonth) {		
 					sMonth = sLocalMonth;
