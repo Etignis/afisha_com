@@ -612,7 +612,7 @@ Vue.component('af_item', {
 </div>`
 });
 
-	
+$(document).ready(function(){	
 var app = new Vue({
 	el: '#app',
 	data: {
@@ -791,7 +791,7 @@ var app = new Vue({
 					//"folder_id": browser_folder_id
 				},
 				success: function (data) {
-					this.aAfishaItems = data;
+					this.aAfishaItems = JSON.parse(data);
 					//this.foldersList = data;
 				}.bind(this),
 				error: function (error) {
@@ -866,4 +866,5 @@ var app = new Vue({
 			this.showEditor();
 		}
 	}
+});
 });
