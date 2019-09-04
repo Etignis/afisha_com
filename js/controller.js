@@ -961,7 +961,7 @@ var app = new Vue({
 					a_kind: oData.play_id? 0: 1,
 					a_title: oData.name
 				};
-				break;
+					break;
 				case "add": oSendData = {
 					stat: "add",
 					a_play: oData.play_id,
@@ -972,16 +972,17 @@ var app = new Vue({
 					a_kind: oData.play_id? 0: 1,
 					a_title: oData.name
 				};
-				break;
+					break;
 				case "del": oSendData = {
 					stat: "del",
 					item_id: oData.afisha_id
 				};
+					break;
 				case "switch_stat": oSendData = {
 					stat: "switch_stat",
 					item_id: oData.afisha_id
 				};
-				break;
+					break;
 			}
 			let aData =[];
 			
