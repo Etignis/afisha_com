@@ -191,8 +191,7 @@ Vue.component('af_editor', {
 		},
 		age_limit: {
 			type: Number,
-			default: 0,
-			validator: function(val){
+			default: function(val){
 				return Number(val) || 0;
 			}
 		},
