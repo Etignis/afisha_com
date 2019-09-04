@@ -289,6 +289,9 @@
 .combobox_list li:hover {
   background: #dcdcfa;
 }
+[v-cloak] {
+  display: none;
+}
 .afisha_empty {
   padding: 1rem;
   font-size: 120%;
@@ -319,6 +322,13 @@
 }
 .af_row:nth-child(odd) {
   background: rgba(187, 165, 106, 0.25);
+}
+.af_row hr {
+  border: none;
+  padding: 0;
+  margin: 1.3rem;
+  background: none;
+  height: 0;
 }
 .af_row_content {
   display: flex;
@@ -411,15 +421,14 @@
 .af_row_body_autor_type {
   display: flex;
 }
-.af_row_body_author:after {
-  content: ", ";
+.af_row_body_author {
+  /*&:after{
+		content: ", "
+	}*/
 }
 .af_row_body_info {
   margin: .5rem 0;
   width: 100%;
-}
-.af_row_body_place {
-  padding-top: 1.7rem;
 }
 .af_row_panel {
   text-align: right;

@@ -21,12 +21,14 @@
 					:day_name="item.day_name"
 					:time="item.time"
 					:place="item.place"
+					:coast="item.coast"
 					:age_limit="item.age_limit"
 					:stat="item.stat"
 					enable_editor
 					@edit="editPlayItem($event)"
 					@del="delPlayItem($event)"
-					@switch_stat="switchPlayItem($event)"
+					@hide="hidePlayItem($event)"
+					@show="showPlayItem($event)"
 				>
 				</af_item>
 			</af_month>			
@@ -56,12 +58,14 @@
 					:day_name="item.day_name"
 					:time="item.time"
 					:place="item.place"
+					:coast="item.coast"
 					:age_limit="item.age_limit"
 					:stat="item.stat"
 					enable_editor
 					@edit="editOtherItem($event)"
 					@del="delOtherItem($event)"
-					@switch_stat="switchOtherItem($event)"
+					@hide="hideOtherItem($event)"
+					@show="showOtherItem($event)"
 				>
 				</af_item>
 			</af_month>			
@@ -105,6 +109,7 @@
 			</modal-win>
 		</transition>
 			
+	<hr>
 	</div>
 
 

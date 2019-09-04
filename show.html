@@ -1,62 +1,69 @@
 
 	<div id="app">
-
-		<div class='afisha_wrap' v-if="aAfisha.length>0">
-			<af_month
-				v-for="month in aAfisha"
-				:key="month.month"
-				:month="month.month"
-				>
-				<af_item
-					v-for="item in month.items"
-					:key="item.id"
-					:name="item.play"
-					:info="item.info"
-					:autor="item.autor"
-					:type="item.style"
-					:link="item.link"
-					:img="item.img"
-					:day_date="item.day_date"
-					:day_name="item.day_name"
-					:time="item.time"
-					:place="item.place"
-					:age_limit="item.age_limit""
-				>
-				</af_item>
-			</af_month>			
-		</div>
-		<div v-else class='afisha_empty'>
-			В ближайшее время спектакли не запланированы
-		</div>
+		<div CLASS="afisha_global_wrap" v-cloak v-show="fDataLoaded">
+			<div class='afisha_wrap' v-if="aAfisha.length>0">
+				<af_month
+					v-for="month in aAfisha"
+					:key="month.month"
+					:month="month.month"
+					>
+					<af_item
+						v-for="item in month.items"
+						:key="item.id"
+						:name="item.play"
+						:info="item.info"
+						:autor="item.autor"
+						:type="item.style"
+						:link="item.link"
+						:img="item.img"
+						:day_date="item.day_date"
+						:day_name="item.day_name"
+						:time="item.time"
+						:place="item.place"
+						:coast="item.coast"
+						:age_limit="item.age_limit"
+						:stat="item.stat"
+					>
+					</af_item>
+				</af_month>			
+			</div>
+			<div v-else class='afisha_empty'>
+				В ближайшее время спектакли не запланированы
+			</div>
+			
+			<h2 v-if="aOtherAfisha.length>0" class='af_h2'>Прочее</h2>
+			<div class='afisha_wrap' v-if="aOtherAfisha.length>0">
+				<af_month
+					v-for="month in aOtherAfisha"
+					:key="month.month"
+					:month="month.month"
+					>
+					<af_item
+						v-for="item in month.items"
+						:key="item.id"
+						:name="item.play"
+						:info="item.info"
+						:autor="item.autor"
+						:type="item.style"
+						:link="item.link"
+						:img="item.img"
+						:day_date="item.day_date"
+						:day_name="item.day_name"
+						:time="item.time"
+						:place="item.place"
+						:coast="item.coast"
+						:age_limit="item.age_limit"
+						:stat="item.stat"
+					>
+					</af_item>
+				</af_month>			
+			</div>
+		</div>	
 		
-		<h2 v-if="aOtherAfisha.length>0" class='af_h2'>Прочее</h2>
-		<div class='afisha_wrap' v-if="aOtherAfisha.length>0">
-			<af_month
-				v-for="month in aOtherAfisha"
-				:key="month.month"
-				:month="month.month"
-				>
-				<af_item
-					v-for="item in month.items"
-					:key="item.id"
-					:name="item.play"
-					:info="item.info"
-					:autor="item.autor"
-					:type="item.style"
-					:link="item.link"
-					:img="item.img"
-					:day_date="item.day_date"
-					:day_name="item.day_name"
-					:time="item.time"
-					:place="item.place"
-					:age_limit="item.age_limit"
-				>
-				</af_item>
-			</af_month>			
+		<div class='afisha_empty' v-show="!fDataLoaded">
+			<i class="fas fa-sync fa-spin"></i> Обновляем информацию...
 		</div>
-		</div>
-		
-		
+		<hr>	
 	</div>
 
 

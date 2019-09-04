@@ -181,6 +181,10 @@ Vue.component('af_editor', {
 			type: String,
 			default: ""
 		},
+		coste: {
+			type: String,
+			default: ""
+		},
 		info: {
 			type: String,
 			default: ""
@@ -218,6 +222,7 @@ Vue.component('af_editor', {
 			selectedPlayId: "",
 			//infoText: "",
 			localName: "",
+			localCoste: "",
 			localDate: "",
 			localTime: "18:00:00",
 			localPlace: "",
@@ -252,7 +257,7 @@ Vue.component('af_editor', {
 				time: this.innerTime,
 				info: this.innerInfo,
 				place: this.innerPlace,
-				age: this.innerAge,
+				age_limit: this.innerAge,
 				mode: this.mode
 			};
 			this.$emit('submit', oData);
@@ -308,6 +313,14 @@ Vue.component('af_editor', {
 			},
 			set: function(sVal) {
 				this.localName = sVal;
+			}
+		},
+		innerCoste: {
+			get: function() {
+				return this.localCoste || this.coste;
+			},
+			set: function(sVal) {
+				this.localCoste = sVal;
 			}
 		},
 		innerDate: {
@@ -410,22 +423,19 @@ Vue.component('af_editor', {
 				<input type="text" v-model="innerName" style='width: 100%'>
 			</td>
 		</tr>
+		
+		
+		
 		<tr>
 			<td>
 				Дата
 			</td>
 			<td>
-				<input type="date" v-model="innerDate">
+				<input type="date" v-model="innerDate"> Время <input type="time" v-model="innerTime"> Стоимость <input type="text" v-model="innerCoste"  placeholder="200р/Вход свободный">
 			</td>
 		</tr>
-		<tr>
-			<td>
-				Время
-			</td>
-			<td>
-				<input type="time" v-model="innerTime">
-			</td>
-		</tr>
+		
+		
 		<tr>
 			<td>
 				Информация
@@ -522,6 +532,10 @@ Vue.component('af_item', {
 			type: String,
 			default: ""
 		},
+		coste: {
+			type: String,
+			default: ""
+		},
 		age_limit: {
 			type: String,
 			default: ""
@@ -549,8 +563,11 @@ Vue.component('af_item', {
 		del: function(){
 			this.$emit('del', this.id);
 		},
-		switch_stat: function(){
-			this.$emit('switch_stat', this.id);
+		hide: function(){
+			this.$emit('hide', this.id);
+		},
+		show: function(){
+			this.$emit('show', this.id);
 		},
 		cancel: function(){
 			this.editMode = !this.editMode;
@@ -570,8 +587,15 @@ Vue.component('af_item', {
 			return this.info.replace(/\|\|/g, "<br>");
 		},
 		formatted_age_limit: function() {
-			return this.age_limit?this.age_limit.replace(/\D/g, "")+ "+" : "";
+			return this.age_limit?'<i class="fas fa-user-clock" style="min-width: 1.5rem"></i> '+this.age_limit.replace(/\D/g, "")+ "+" : "";
 		},
+		formatted_coste: function() {
+			return this.coste? '<i class="fas fa-money-bill-alt" style="min-width: 1.5rem"></i> ' + this.coste : "";
+		},
+		formatted_place: function() {
+			return this.place?'<i class="fas fa-map-marker-alt" style="min-width: 1.5rem"></i> '+this.place : "";
+		},
+		
 		shown: function(){
 			return !this.editMode;
 		},
@@ -622,18 +646,21 @@ Vue.component('af_item', {
 				<div class='af_row_body_info' v-html='formattedInfo'>
 			
 				</div>
-				<div class='af_row_body_place'>
-					{{place}}
+				
+				<hr>
+				
+				<div class='af_row_body_coste' v-html="formatted_coste">
 				</div>
-				<div class='af_row_body_age_limit'>
-					{{formatted_age_limit}}
+				<div class='af_row_body_place' v-html="formatted_place">
+				</div>
+				<div class='af_row_body_age_limit' v-html="formatted_age_limit">
 				</div>
 			</div>
 		</div>
 		<div class='af_row_panel' v-if="enable_editor">
 			<a href="#" @click.stop.prevent="edit">Редактировать</a>
-			<a href="#" @click.stop.prevent="switch_stat" v-show="stat">Скрыть</a>
-			<a href="#" @click.stop.prevent="switch_stat" v-show="!stat">Показать</a>
+			<a href="#" @click.stop.prevent="hide" v-show="stat">Скрыть</a>
+			<a href="#" @click.stop.prevent="show" v-show="!stat">Показать</a>
 			<a href="#" @click.stop.prevent="del">Удалить</a>
 		</div>
 	</div>
@@ -709,6 +736,7 @@ var app = new Vue({
 			},*/
 		],
 		scriptURL: '/coms/afisha/afisha_func.php',
+		fDataLoaded: false,
 		editor: {
 			data: {
 				id: "99",
@@ -858,6 +886,7 @@ var app = new Vue({
 				success: function (data) {
 					this.aAfishaItems = JSON.parse(data);
 					//this.foldersList = data;
+					this.fDataLoaded = true;
 				}.bind(this),
 				error: function (error) {
 					//alert(JSON.stringify(error));
@@ -912,8 +941,11 @@ var app = new Vue({
 		delPlayItem: function(nItemId){
 			this._sendData("del", {afisha_id: nItemId});
 		},
-		switchPlayItem: function(nItemId){
-			this._sendData("switch_stat", {afisha_id: nItemId});
+		showPlayItem: function(nItemId){
+			this._sendData("show", {afisha_id: nItemId});
+		},
+		hidePlayItem: function(nItemId){
+			this._sendData("hide", {afisha_id: nItemId});
 		},
 		editOtherItem: function(nItemId){
 			this._editItem(nItemId, "editEvent");
@@ -921,8 +953,11 @@ var app = new Vue({
 		delOtherItem: function(nItemId){
 			this._sendData("del", {afisha_id: nItemId});
 		},
-		switchOtherItem: function(nItemId){
-			this._sendData("switch_stat", {afisha_id: nItemId});
+		showOtherItem: function(nItemId){
+			this._sendData("show", {afisha_id: nItemId});
+		},
+		hideOtherItem: function(nItemId){
+			this._sendData("hide", {afisha_id: nItemId});
 		},
 		
 		_sendData: function(sMode, oData) {
@@ -959,7 +994,11 @@ var app = new Vue({
 					a_time: oData.time,
 					a_id: oData.afisha_id,
 					a_kind: oData.play_id? 0: 1,
-					a_title: oData.name
+					a_title: oData.name,
+					
+					a_place: oData.place,
+					a_coste: oData.coste,
+					a_age_limit: oData.age_limit
 				};
 					break;
 				case "add": oSendData = {
@@ -970,16 +1009,20 @@ var app = new Vue({
 					a_time: oData.time,
 					a_id: oData.afisha_id,
 					a_kind: oData.play_id? 0: 1,
-					a_title: oData.name
+					a_title: oData.name,
+					
+					a_place: oData.place,
+					a_coste: oData.coste,
+					a_age_limit: oData.age_limit
 				};
 					break;
-				case "del": oSendData = {
+				case "hide": oSendData = {
 					stat: "del",
 					item_id: oData.afisha_id
 				};
 					break;
-				case "switch_stat": oSendData = {
-					stat: "switch_stat",
+				case "show": oSendData = {
+					stat: "show",
 					item_id: oData.afisha_id
 				};
 					break;
@@ -991,19 +1034,19 @@ var app = new Vue({
 			}
 			data = aData.join("&");
 			
-			// $.ajax({
-				// type: 'POST',		
-				// url: this.scriptURL,
-				// data: data,
-				// success: function(answ){
-					// if(answ==1) {
-					 // mod_alert("Успешно.", 1500, 300);
-					 // this.loadData();
-					// } else {
-					 // alert('ошибка ['+answ+']');
-					// }										 
-				// }.bind(this)
-			// });
+			$.ajax({
+				type: 'POST',		
+				url: this.scriptURL,
+				data: data,
+				success: function(answ){
+					if(answ==1) {
+					 mod_alert("Успешно.", 1500, 300);
+					 this.loadData();
+					} else {
+					 alert('ошибка ['+answ+']');
+					}										 
+				}.bind(this)
+			});
 		},
 		
 		saveEdited: function(oData) {
