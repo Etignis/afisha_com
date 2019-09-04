@@ -272,8 +272,11 @@ Vue.component('af_editor', {
 			return this.infoText? this.infoText.split(/[\r\n]+/).length+1 : 2;
 		},
 		
-		isEdit: function() {
-			return this.mode == "edit";
+		isEditPlay: function() {
+			return this.mode == "editPlay";
+		},
+		isEditEvent: function() {
+			return this.mode == "editEvent";
 		},
 		isAdd: function() {
 			return !this.isEdit;
@@ -371,7 +374,7 @@ Vue.component('af_editor', {
 				</select>
 			</td>
 		</tr>
-		<tr v-show="isEdit">
+		<tr v-show="isEditPlay">
 			<td width="1">
 				Спектакль
 			</td>
@@ -387,6 +390,14 @@ Vue.component('af_editor', {
 			</td>
 		</tr>
 		<tr v-show="addEventMode">
+			<td width="1">
+				Событие
+			</td>
+			<td>
+				<input type="text" v-model="innerName">
+			</td>
+		</tr>
+		<tr v-show="isEditEvent">
 			<td width="1">
 				Событие
 			</td>
@@ -858,7 +869,7 @@ var app = new Vue({
 			}
 		},
 		
-		editItem: function(nItemId){
+		_editIten: function(nItemId, sMode) {
 			this._clearEditor();
 			var oItem = this.aAfishaItems.find(el => el.id==nItemId);
 			oItem.name = oItem.play;
@@ -866,9 +877,16 @@ var app = new Vue({
 				for( let key in this.editor.data) {
 					this.editor.data[key] = String(oItem[key]);
 				}
-				this.editor.mode="edit";
+				this.editor.mode=sMode;
 				this.showEditor();
 			}
+		},
+		
+		editPlayItem: function(nItemId){
+			this._editIten(nItemId, "editPlay");
+		},
+		editOtherItem: function(nItemId){
+			this._editIten(nItemId, "editEvent");
 		},
 		
 		_sendData: function(sMode, oData) {
