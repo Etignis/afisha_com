@@ -909,8 +909,20 @@ var app = new Vue({
 		editPlayItem: function(nItemId){
 			this._editItem(nItemId, "editPlay");
 		},
+		delPlayItem: function(nItemId){
+			this._sendData("del", {afisha_id: nItemId});
+		},
+		switchPlayItem: function(nItemId){
+			this._sendData("switch_stat", {afisha_id: nItemId});
+		},
 		editOtherItem: function(nItemId){
 			this._editItem(nItemId, "editEvent");
+		},
+		delOtherItem: function(nItemId){
+			this._sendData("del", {afisha_id: nItemId});
+		},
+		switchOtherItem: function(nItemId){
+			this._sendData("switch_stat", {afisha_id: nItemId});
 		},
 		
 		_sendData: function(sMode, oData) {

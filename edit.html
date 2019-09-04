@@ -25,6 +25,8 @@
 					:stat="item.stat"
 					enable_editor
 					@edit="editPlayItem($event)"
+					@del="delPlayItem($event)"
+					@switch_stat="switchPlayItem($event)"
 				>
 				</af_item>
 			</af_month>			
@@ -58,6 +60,8 @@
 					:stat="item.stat"
 					enable_editor
 					@edit="editOtherItem($event)"
+					@del="delOtherItem($event)"
+					@switch_stat="switchOtherItem($event)"
 				>
 				</af_item>
 			</af_month>			
