@@ -930,16 +930,7 @@ var app = new Vue({
 				mode: this.mode
 			*/
 			let data ="";
-			let oSendData = {}; {
-				stat: "save_edit",
-				a_play: oData.play_id,
-				a_text: oData.info,
-				a_date: oData.date,
-				a_time: oData.time,
-				a_id: oData.afisha_id,
-				a_kind: oData.play_id? 0: 1,
-				a_title: oData.name
-			};
+			let oSendData = {}; 
 			switch(sMode) {
 				case "save": oSendData = {
 					stat: "save_edit",
