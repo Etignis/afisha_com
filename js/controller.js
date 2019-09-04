@@ -692,7 +692,7 @@ var app = new Vue({
 		editor: {
 			data: {
 				id: "99",
-				play_id: "00"
+				play_id: "00",
 				name: "99",
 				info: "99",
 				place: "99",
