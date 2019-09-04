@@ -529,6 +529,10 @@ Vue.component('af_item', {
 		enable_editor: {
 			type: Boolean,
 			default: false
+		},
+		stat: {
+			type: Number,
+			default: 1
 		}
 	},
 	data: function(){
@@ -564,6 +568,13 @@ Vue.component('af_item', {
 		},
 		shown: function(){
 			return !this.editMode;
+		},
+		af_row_content_class: function() {
+			let aClasses = ["af_row_content"];
+			if(this.stat == 1){
+				aClasses.push("invisible")
+			}
+			return aClasses.join(" ");
 		}
 	},
 	created: function(){
@@ -571,7 +582,7 @@ Vue.component('af_item', {
 	},
 	template: `<article class='af_row'>
 	<div class='af_row_viewer' v-show="shown">
-		<div class='af_row_content'>		
+		<div :class='af_row_content_class'>		
 			<div class='af_row_datetime'>
 				<div class='af_row_date'>
 					<div class='af_row_date_val'>{{day_date}}</div>
@@ -832,7 +843,7 @@ var app = new Vue({
 	methods: {
 		loadData: function(){
 			$.ajax({
-				url: "https://tteatr.ru/api/afisha/index.php",
+				url: "https://tteatr.ru/api/afisha/index.php?type=afisha",
 				method: 'POST',
 				data: {
 					//"folder_id": browser_folder_id
@@ -919,7 +930,7 @@ var app = new Vue({
 				mode: this.mode
 			*/
 			let data ="";
-			let oSendData = {
+			let oSendData = {}; {
 				stat: "save_edit",
 				a_play: oData.play_id,
 				a_text: oData.info,
@@ -930,7 +941,33 @@ var app = new Vue({
 				a_title: oData.name
 			};
 			switch(sMode) {
-				case "save": oSendData.stat = "save_edit"; break;
+				case "save": oSendData = {
+					stat: "save_edit",
+					a_play: oData.play_id,
+					a_text: oData.info,
+					a_date: oData.date,
+					a_time: oData.time,
+					a_id: oData.afisha_id,
+					a_kind: oData.play_id? 0: 1,
+					a_title: oData.name
+				};
+				break;
+				case "add": oSendData = {
+					stat: "add",
+					a_play: oData.play_id,
+					a_text: oData.info,
+					a_date: oData.date,
+					a_time: oData.time,
+					a_id: oData.afisha_id,
+					a_kind: oData.play_id? 0: 1,
+					a_title: oData.name
+				};
+				break;
+				case "del": oSendData = {
+					stat: "del",
+					item_id: oData.afisha_id
+				};
+				break;
 			}
 			let aData =[];
 			

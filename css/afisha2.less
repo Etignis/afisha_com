@@ -39,10 +39,15 @@
 	}
 }
 .af_row_content{
-	    display: flex;
+	  display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: stretch;
+
+	& .invisible{
+		filter: grayscale(1);
+    opacity: 0.5;
+	}
 }
 .af_row_datetime{
 	flex-basis: 120px;
