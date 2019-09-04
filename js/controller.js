@@ -278,6 +278,9 @@ Vue.component('af_editor', {
 		isEditEvent: function() {
 			return this.mode == "editEvent";
 		},
+		isEdit: function() {
+			return this.isEditPlay || this.isEditEvent;
+		},
 		isAdd: function() {
 			return !this.isEdit;
 		},
