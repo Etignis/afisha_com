@@ -191,7 +191,10 @@ Vue.component('af_editor', {
 		},
 		age_limit: {
 			type: Number,
-			default: 0
+			default: 0,
+			validator: function(val){
+				return Number(val) || 0;
+			}
 		},
 		date: {
 			type: String,
@@ -696,7 +699,7 @@ var app = new Vue({
 				name: "99",
 				info: "99",
 				place: "99",
-				age_limit: "99",
+				age_limit: 0,
 				dt: "2019-05-07",
 				tm: "16:00:00"
 			},
