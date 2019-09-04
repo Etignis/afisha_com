@@ -326,7 +326,7 @@
   justify-content: space-around;
   align-items: stretch;
 }
-.af_row_content .invisible {
+.af_row_content.invisible {
   filter: grayscale(1);
   opacity: 0.5;
 }
