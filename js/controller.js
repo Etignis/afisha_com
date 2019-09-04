@@ -626,8 +626,9 @@ Vue.component('af_item', {
 		</div>
 		<div class='af_row_panel' v-if="enable_editor">
 			<a href="#" @click.stop.prevent="edit">Редактировать</a>
-			<a href="#">Скрыть</a>
-			<a href="#">Удалить</a>
+			<a href="#" @click.stop.prevent="switch_stat" v-show="stat">Скрыть</a>
+			<a href="#" @click.stop.prevent="switch_stat" v-show="!stat">Показать</a>
+			<a href="#" @click.stop.prevent="del">Удалить</a>
 		</div>
 	</div>
 	<div class='af_row_editor' v-if="editMode">
@@ -956,6 +957,10 @@ var app = new Vue({
 				break;
 				case "del": oSendData = {
 					stat: "del",
+					item_id: oData.afisha_id
+				};
+				case "switch_stat": oSendData = {
+					stat: "switch_stat",
 					item_id: oData.afisha_id
 				};
 				break;
