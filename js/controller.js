@@ -336,7 +336,7 @@ Vue.component('af_editor', {
 		},
 		innerAge: {
 			get: function() {
-				return this.localAge || this.age_limit || "";
+				return (this.localAge || this.age_limit || "").replase(/\D+/g, "");
 			},
 			set: function(sVal) {
 				this.localAge = sVal;
