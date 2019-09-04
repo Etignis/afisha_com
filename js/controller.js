@@ -269,7 +269,7 @@ Vue.component('af_editor', {
 			return this.places.map(el => el.name);
 		},
 		infoRows: function(){
-			return this.infoText? this.infoText.split(/[\r\n]+/).length+1 : 2;
+			return this.infoText? this.infoText.split(/[\r\n]+/).length+1 : 5;
 		},
 		
 		isEditPlay: function() {
@@ -331,7 +331,7 @@ Vue.component('af_editor', {
 		},
 		innerAge: {
 			get: function() {
-				return this.localAge || this.age_limit;
+				return this.localAge || this.age_limit || "";
 			},
 			set: function(sVal) {
 				this.localAge = sVal;
@@ -394,7 +394,7 @@ Vue.component('af_editor', {
 				Событие
 			</td>
 			<td>
-				<input type="text" v-model="innerName">
+				<input type="text" v-model="innerName" style='width: 100%'>
 			</td>
 		</tr>
 		<tr v-show="isEditEvent">
@@ -402,7 +402,7 @@ Vue.component('af_editor', {
 				Событие
 			</td>
 			<td>
-				<input type="text" v-model="innerName">
+				<input type="text" v-model="innerName" style='width: 100%'>
 			</td>
 		</tr>
 		<tr>
