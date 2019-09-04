@@ -190,8 +190,8 @@ Vue.component('af_editor', {
 			default: ""
 		},
 		age_limit: {
-			type: String,
-			default: ""
+			type: Number,
+			default: 0
 		},
 		date: {
 			type: String,
