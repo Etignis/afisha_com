@@ -688,10 +688,11 @@ var app = new Vue({
 				tm: "16:00:00"
 			},*/
 		],
-		
+		scriptURL: '/coms/afisha/afisha_func.php',
 		editor: {
 			data: {
 				id: "99",
+				play_id: "00"
 				name: "99",
 				info: "99",
 				place: "99",
@@ -702,14 +703,14 @@ var app = new Vue({
 			mode: "add"
 		},
 		aPlays: [
-			{
+			/*{
 				id: "1",
 				name: "Жёны артистов"
 			},
 			{
 				id: "2",
 				name: "Принцесса"
-			}
+			}*/
 		],
 		aPlaces: [
 			{
@@ -872,7 +873,7 @@ var app = new Vue({
 			}
 		},
 		
-		_editIten: function(nItemId, sMode) {
+		_editItem: function(nItemId, sMode) {
 			this._clearEditor();
 			var oItem = this.aAfishaItems.find(el => el.id==nItemId);
 			oItem.name = oItem.play;
@@ -886,10 +887,10 @@ var app = new Vue({
 		},
 		
 		editPlayItem: function(nItemId){
-			this._editIten(nItemId, "editPlay");
+			this._editItem(nItemId, "editPlay");
 		},
 		editOtherItem: function(nItemId){
-			this._editIten(nItemId, "editEvent");
+			this._editItem(nItemId, "editEvent");
 		},
 		
 		_sendData: function(sMode, oData) {
@@ -898,6 +899,57 @@ var app = new Vue({
 				aParams.push(key +"="+ encodeURIComponent(oData[key]))
 			}
 			var sRequest = aParams.join("&");
+			
+			/// var data='stat=save_edit&a_play='+play+'&a_text='+text+'&a_date='+date+'&a_time='+time+'&a_id='+id+'&a_kind='+kind+'&a_title='+title;
+  
+			/// "afisha_id=75&play_id=&name=%D0%92%D1%82%D0%BE%D1%80%D0%BE%D0%B9%20%D0%B4%D0%B5%D0%BD%D1%8C%20%D0%BE%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D1%85%20%D0%B4%D0%B2%D0%B5%D1%80%D0%B5%D0%B9&date=2019-09-07&time=18%3A00%3A00&info=%D0%9F%D0%BE%20%D0%BD%D0%BE%D0%B2%D0%BE%D0%B9%20%D1%82%D1%80%D0%B0%D0%B4%D0%B8%D1%86%D0%B8%D0%B8%20%D0%B2%20%D1%8D%D1%82%D0%BE%D0%BC%20%D0%B3%D0%BE%D0%B4%D1%83%20%D0%B1%D1%83%D0%B4%D0%B5%D1%82%20%D0%B5%D1%89%D0%B5%20%D0%BE%D0%B4%D0%B8%D0%BD%20%D0%94%D0%B5%D0%BD%D1%8C%20%D0%9E%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D1%85%20%D0%94%D0%B2%D0%B5%D1%80%D0%B5%D0%B9.%20%D0%9E%D0%BD%20%D0%BF%D1%80%D0%BE%D0%B9%D0%B4%D0%B5%D1%82%20%D0%B2%20%D0%94%D0%9A%20''%D0%AF%D1%83%D0%B7%D0%B0''%207-%D0%B3%D0%BE%20%D1%81%D0%B5%D0%BD%D1%82%D1%8F%D0%B1%D1%80%D1%8F%20%D1%81%2011%3A00%20%D0%B4%D0%BE%2015%3A00.%0A%0A%D0%9F%D1%80%D0%B8%D1%85%D0%BE%D0%B4%D0%B8%D1%82%D0%B5!&place=%D0%94%D0%9A%20%22%D0%AF%D1%83%D0%B7%D0%B0%22&age=null&mode=editEvent"
+			
+			
+			/*
+			afisha_id: this.id,
+				play_id: this.innerPlayId,
+				name: this.innerName,
+				date: this.innerDate,
+				time: this.innerTime,
+				info: this.innerInfo,
+				place: this.innerPlace,
+				age: this.innerAge,
+				mode: this.mode
+			*/
+			let data ="";
+			let oSendData = {
+				stat: "save_edit",
+				a_play: oData.play_id,
+				a_text: oData.info,
+				a_date: oData.date,
+				a_time: oData.time,
+				a_id: oData.afisha_id,
+				a_kind: oData.play_id? 0: 1,
+				a_title: oData.name
+			};
+			switch(sMode) {
+				case "save": oSendData.stat = "save_edit"; break;
+			}
+			let aData =[];
+			
+			for(let key in oSendData) {
+				aData.push(key+"="+oSendData[key]);
+			}
+			data = aData.join("&");
+			
+			// $.ajax({
+				// type: 'POST',		
+				// url: this.scriptURL,
+				// data: data,
+				// success: function(answ){
+					// if(answ==1) {
+					 // mod_alert("Успешно.", 1500, 300);
+					 // this.loadData();
+					// } else {
+					 // alert('ошибка ['+answ+']');
+					// }										 
+				// }.bind(this)
+			// });
 		},
 		
 		saveEdited: function(oData) {
