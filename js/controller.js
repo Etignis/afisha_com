@@ -571,7 +571,7 @@ Vue.component('af_item', {
 		},
 		af_row_content_class: function() {
 			let aClasses = ["af_row_content"];
-			if(this.stat == 1){
+			if(this.stat == 0){
 				aClasses.push("invisible")
 			}
 			return aClasses.join(" ");
