@@ -546,6 +546,12 @@ Vue.component('af_item', {
 			//this.editMode = !this.editMode;
 			this.$emit('edit', this.id);
 		},
+		del: function(){
+			this.$emit('del', this.id);
+		},
+		switch_stat: function(){
+			this.$emit('switch_stat', this.id);
+		},
 		cancel: function(){
 			this.editMode = !this.editMode;
 		},
