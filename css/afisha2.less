@@ -48,7 +48,8 @@
 		padding: 0;
 		margin: 1.3rem;
 		background: none;
-		height: 0;
+		height: 1px;
+    background: #ddc28d;
 	}
 }
 .af_row_content{
@@ -149,17 +150,19 @@
 }
 
 .af_row_body_autor_type{
-	display: flex;
+	display: flex;	
+  justify-content: center;
 }
 
 .af_row_body_author{
 	/*&:after{
 		content: ", "
 	}*/
+	padding-right: 0.5em;
 }
 
 .af_row_body_info{
-	margin: .5rem 0;
+	margin: .7rem 0;
 	width: 100%;
 }
 
@@ -226,5 +229,13 @@
 	.af_row_time_val,
 	.af_row_date_val{
 		font-size: 140%;
+	}
+	
+	.af_row_body_min{
+		display: none;
+	}
+	.af_row_body_max{
+		width: 100%;
+		display: block;
 	}
 }

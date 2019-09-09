@@ -180,7 +180,7 @@ Vue.component('af_editor', {
 		name: {
 			type: String,
 			default: ""
-		},
+		},		
 		coste: {
 			type: String,
 			default: ""
@@ -224,7 +224,7 @@ Vue.component('af_editor', {
 			localName: "",
 			localCoste: "",
 			localDate: "",
-			localTime: "18:00:00",
+			localTime: "",
 			localPlace: "",
 			localAge: "",
 			localInfo: ""
@@ -257,6 +257,7 @@ Vue.component('af_editor', {
 				time: this.innerTime,
 				info: this.innerInfo,
 				place: this.innerPlace,
+				coste: this.innerCoste,
 				age_limit: this.innerAge,
 				mode: this.mode
 			};
@@ -583,6 +584,9 @@ Vue.component('af_item', {
 		mainImage: function(){
 			return this.rootUrl + this.img;
 		},
+		formattedAuthor: function(){
+			return (this.autor && this.kind)?this.autor+", ": this.autor;
+		},
 		formattedInfo: function(){
 			return this.info.replace(/\|\|/g, "<br>");
 		},
@@ -627,17 +631,17 @@ Vue.component('af_item', {
 			
 			<div class='af_row_body'>
 				<h1 class='af_row_body_min'>
-					<a :href='url' v-if="this.link">{{name}}</a>
+					<a :href='url' v-if="link">{{name}}</a>
 					<span v-else>{{name}}</span>
 				</h1>
 				<div class='af_row_body_max'>
 					<a :href='url'> 
-						<img :src="mainImage" :alt="name"/>
+						<img class="img_border" :src="mainImage" :alt="name"/>
 					</a>
 				</div>
 				<div class='af_row_body_autor_type'>
-					<div class='af_row_body_autor'>
-						{{autor}}
+					<div class='af_row_body_author'>
+						{{formattedAuthor}}
 					</div>
 					<div class='af_row_body_type'>
 						{{kind}}
@@ -647,11 +651,11 @@ Vue.component('af_item', {
 			
 				</div>
 				
-				<hr>
+				<hr>				
 				
-				<div class='af_row_body_coste' v-html="formatted_coste">
-				</div>
 				<div class='af_row_body_place' v-html="formatted_place">
+				</div>
+				<div class='af_row_body_coste' v-html="formatted_coste">
 				</div>
 				<div class='af_row_body_age_limit' v-html="formatted_age_limit">
 				</div>
@@ -745,6 +749,7 @@ var app = new Vue({
 				info: "99",
 				place: "99",
 				age_limit: 0,
+				coste: "",
 				dt: "2019-05-07",
 				tm: "16:00:00"
 			},
@@ -825,6 +830,7 @@ var app = new Vue({
 					sMonth = sLocalMonth;
 					oRet[sMonth] = [];
 				}
+				el.money = el.coste;
 				oRet[sMonth].push(el);
 			});
 			
@@ -1001,6 +1007,7 @@ var app = new Vue({
 					a_age_limit: oData.age_limit
 				};
 					break;
+				case "addPlay": 
 				case "add": oSendData = {
 					stat: "add",
 					a_play: oData.play_id,
@@ -1050,7 +1057,7 @@ var app = new Vue({
 		},
 		
 		saveEdited: function(oData) {
-			this._sendData("save", oData);
+			this._sendData(oData.mode, oData);
 			this.closeModWin();
 		},
 		
