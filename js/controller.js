@@ -227,7 +227,7 @@ Vue.component('af_editor', {
 			localTime: "",
 			localPlace: "",
 			localAge: "",
-			localInfo: ""
+			localInfo: undefined
 		};
 	},
 	methods: {
@@ -302,7 +302,7 @@ Vue.component('af_editor', {
 		
 		innerInfo: {
 			get: function() {
-				return this.localInfo || this.info.replace(/\|\|/g, "\n");
+				return (this.localInfo==undefined)? this.info.replace(/\|\|/g, "\n") : this.localInfo;
 			},
 			set: function(sVal) {
 				this.localInfo = sVal;
@@ -600,6 +600,10 @@ Vue.component('af_item', {
 			return this.place?'<i class="fas fa-map-marker-alt" style="min-width: 1.5rem"></i> '+this.place : "";
 		},
 		
+		formatted_name: function(){
+			return this.name.replace(/^['\"\`«]*(.+)['\"\`»]*$/ig, "«$1»");
+		},
+		
 		shown: function(){
 			return !this.editMode;
 		},
@@ -631,13 +635,18 @@ Vue.component('af_item', {
 			
 			<div class='af_row_body'>
 				<h1 class='af_row_body_min'>
-					<a :href='url' v-if="link">{{name}}</a>
-					<span v-else>{{name}}</span>
+					<a :href='url' v-if="link">{{formatted_name}}</a>
+					<span v-else>{{formatted_name}}</span>
 				</h1>
 				<div class='af_row_body_max'>
-					<a :href='url'> 
-						<img class="img_border" :src="mainImage" :alt="name"/>
+					<a  v-if="link" :href='url'> 
+						<img v-if="img" class="img_border" :src="mainImage" :alt="formatted_name"/>
+						<h1 v-else>{{formatted_name}}</h1>
 					</a>
+					<span  v-else> 						
+						<img v-if="img" class="img_border" :src="mainImage" :alt="formatted_name"/>
+						<h1 v-else>{{formatted_name}}</h1>
+					</span>
 				</div>
 				<div class='af_row_body_autor_type'>
 					<div class='af_row_body_author'>
@@ -665,7 +674,7 @@ Vue.component('af_item', {
 			<a href="#" @click.stop.prevent="edit">Редактировать</a>
 			<a href="#" @click.stop.prevent="hide" v-show="stat">Скрыть</a>
 			<a href="#" @click.stop.prevent="show" v-show="!stat">Показать</a>
-			<a href="#" @click.stop.prevent="del">Удалить</a>
+			<a v-if="0" href="#" @click.stop.prevent="del">Удалить</a>
 		</div>
 	</div>
 	<div class='af_row_editor' v-if="editMode">
@@ -767,11 +776,11 @@ var app = new Vue({
 		],
 		aPlaces: [
 			{
-				name: "Малый зал Дк \"Яуза\"",
+				name: "Малый зал ДК \"Яуза\"",
 				url: ""
 			},			
 			{
-				name: "Большой зал Дк \"Яуза\"",
+				name: "Большой зал ДК \"Яуза\"",
 				url: ""
 			},			
 			{
@@ -848,7 +857,8 @@ var app = new Vue({
 			var sMonth="";
 			var aRet = [];
 			var oRet = {};
-			this.aNonPlaysItems.sort(function(a, b){
+			this.aNonPlaysItems
+				.sort(function(a, b){
 				if (a.dt+a.tm < b.dt+b.tm)
 					return -1;
 				if (a.dt+a.tm > b.dt+b.tm)
@@ -992,6 +1002,8 @@ var app = new Vue({
 			let data ="";
 			let oSendData = {}; 
 			switch(sMode) {
+				case "editPlay":
+				case "editEvent":
 				case "save": oSendData = {
 					stat: "save_edit",
 					a_play: oData.play_id,
@@ -1003,10 +1015,11 @@ var app = new Vue({
 					a_title: oData.name,
 					
 					a_place: oData.place,
-					a_coste: oData.coste,
+					a_coste: oData.coste==0? "Вход свободный" : oData.coste,
 					a_age_limit: oData.age_limit
 				};
 					break;
+				case "addEvent": 
 				case "addPlay": 
 				case "add": oSendData = {
 					stat: "add",
@@ -1019,7 +1032,7 @@ var app = new Vue({
 					a_title: oData.name,
 					
 					a_place: oData.place,
-					a_coste: oData.coste,
+					a_coste: oData.coste==0? "Вход свободный" : oData.coste,
 					a_age_limit: oData.age_limit
 				};
 					break;
