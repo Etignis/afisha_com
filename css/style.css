@@ -415,6 +415,7 @@
   font-weight: bold;
   font-size: 140%;
   margin: 0 0 .5rem;
+  text-align: center;
 }
 .af_row_body_min a {
   text-decoration: none;
