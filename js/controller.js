@@ -350,7 +350,7 @@ Vue.component('af_editor', {
 		},
 		innerAge: {
 			get: function() {
-				return Number(String(this.localAge || this.age_limit).replace(/\D+/g, ""));
+				return /*Number(*/String(this.localAge || this.age_limit).replace(/\D+/g, "")/*)*/;
 			},
 			set: function(sVal) {
 				this.localAge = sVal;
@@ -548,6 +548,10 @@ Vue.component('af_item', {
 		stat: {
 			type: Number,
 			default: 1
+		},
+		dt: {
+			type: String,
+			default: ""
 		}
 	},
 	data: function(){
@@ -601,7 +605,7 @@ Vue.component('af_item', {
 		},
 		
 		formatted_name: function(){
-			return this.name.replace(/^['\"\`«]*(.+)['\"\`»]*$/ig, "«$1»");
+			return (/['\"\`«»]/.test(this.name) || this.autor)?this.name.replace(/^['\"\`«]*(.+)['\"\`»]*$/ig, "«$1»"):this.name;
 		},
 		
 		shown: function(){
@@ -613,12 +617,16 @@ Vue.component('af_item', {
 				aClasses.push("invisible")
 			}
 			return aClasses.join(" ");
+		},
+		af_row_id: function(){
+			return `date_${this.dt}`
 		}
 	},
 	created: function(){
 		
 	},
 	template: `<article class='af_row'>
+	<span :id='af_row_id'></span>
 	<div class='af_row_viewer' v-show="shown">
 		<div :class='af_row_content_class'>		
 			<div class='af_row_datetime'>
@@ -833,6 +841,21 @@ var app = new Vue({
 	mounted: function() {
 		
 	},
+	updated: function() {
+		//catch url hash
+		let sId = location.hash.replace("#","");
+		if(sId){
+			let oItem = document.querySelector(`#${sId}`);
+			if (oItem) {
+				oItem.scrollIntoView({
+					behavior: 'smooth',
+					block: 'start'
+				});
+				 history.pushState("", document.title, window.location.pathname + window.location.search);
+			}
+		}
+		
+	},
 	
 	created: function(){
 		this.loadData();
@@ -939,7 +962,7 @@ var app = new Vue({
 					
 					a_place: oData.place,
 					a_coste: oData.coste==0? "Вход свободный" : oData.coste,
-					a_age_limit: oData.age_limit
+					a_age_limit: Number(oData.age_limit)
 				};
 					break;
 				case "addEvent": 
@@ -956,7 +979,7 @@ var app = new Vue({
 					
 					a_place: oData.place,
 					a_coste: oData.coste==0? "Вход свободный" : oData.coste,
-					a_age_limit: oData.age_limit
+					a_age_limit: Number(oData.age_limit)
 				};
 					break;
 				case "hide": oSendData = {
