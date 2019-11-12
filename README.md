@@ -10,3 +10,5 @@
 * edit.html - интрефейс администратора 
 * css/style.css - стили оформления
 * js/controller.js - основной фал-контроллер 
+
+www.tteatr.ru/afisha
