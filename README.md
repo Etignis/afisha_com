@@ -11,4 +11,4 @@
 * css/style.css - стили оформления
 * js/controller.js - основной фал-контроллер 
 
-www.tteatr.ru/afisha
+https://tteatr.ru/afisha
