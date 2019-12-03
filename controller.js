@@ -199,10 +199,6 @@ Vue.component('af_editor', {
 				return Number(val) || 0;
 			}
 		},
-		anons: {
-			type: Boolean,
-			default: true
-		},
 		date: {
 			type: String,
 			default: ""
@@ -231,8 +227,7 @@ Vue.component('af_editor', {
 			localTime: "",
 			localPlace: "",
 			localAge: "",
-			localInfo: undefined,
-			localanons: false
+			localInfo: undefined
 		};
 	},
 	methods: {
@@ -264,8 +259,7 @@ Vue.component('af_editor', {
 				place: this.innerPlace,
 				coste: this.innerCoste,
 				age_limit: this.innerAge,
-				mode: this.mode,
-				anons: this.inneranons
+				mode: this.mode
 			};
 			this.$emit('submit', oData);
 		},
@@ -344,14 +338,6 @@ Vue.component('af_editor', {
 			},
 			set: function(sVal) {
 				this.localTime = sVal;
-			}
-		},
-		innerAnons: {
-			get: function() {
-				return this.localAnons || this.anons;
-			},
-			set: function(sVal) {
-				this.localAnons = sVal;
 			}
 		},
 		innerPlace: {
@@ -487,14 +473,6 @@ Vue.component('af_editor', {
 				</combobox>
 			</td>
 		</tr>
-		<tr>
-			<td>
-				Отобразить в анонсе
-			</td>
-			<td>				
-				<input type='checkbox' v-model='innerAnons'>
-			</td>
-		</tr>
 	</table>
 	<div class='af_editor_footer'>
 		<button class="btn_cancel" @click="cancel">
@@ -627,7 +605,7 @@ Vue.component('af_item', {
 		},
 		
 		formatted_name: function(){
-			return (/['\"\`«»]/.test(this.name) || this.autor)?this.name.replace(/^['\"\`«]*(.+)['\"\`»]*$/ig, "«$1»"):this.name;
+			return /['\"\`«»]/.test(this.name)?this.name.replace(/^['\"\`«]*(.+)['\"\`»]*$/ig, "«$1»"):this.name;
 		},
 		
 		shown: function(){
@@ -743,8 +721,7 @@ var app = new Vue({
 				age_limit: 0,
 				coste: "",
 				dt: "",
-				tm: "",
-				anons: true
+				tm: ""
 			},
 			mode: "add"
 		},
@@ -985,8 +962,7 @@ var app = new Vue({
 					
 					a_place: oData.place,
 					a_coste: oData.coste==0? "Вход свободный" : oData.coste,
-					a_age_limit: Number(oData.age_limit),
-					a_anons: oData.anons
+					a_age_limit: Number(oData.age_limit)
 				};
 					break;
 				case "addEvent": 
@@ -1003,8 +979,7 @@ var app = new Vue({
 					
 					a_place: oData.place,
 					a_coste: oData.coste==0? "Вход свободный" : oData.coste,
-					a_age_limit: Number(oData.age_limit),
-					a_anons: oData.anons
+					a_age_limit: Number(oData.age_limit)
 				};
 					break;
 				case "hide": oSendData = {

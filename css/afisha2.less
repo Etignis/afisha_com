@@ -1,27 +1,5 @@
-[v-cloak] {
-  display: none;
-}
-.afisha_global_wrap{
-}
 .afisha_wrap{
 
-}
-.afisha_empty{
-	padding: 1rem;
-	font-size: 120%;
-	text-align: center;
-	background: @bg_2;
-	margin: 0.3rem 0 0.5rem;
-	font-style: italic;
-}
-.af_h2{
-	  font-size: 22px;
-    font-weight: bold;
-    color: #442200;
-    border-bottom: 1px dotted;
-    margin: 1rem auto 0.5rem;
-    padding: 0;
-    display: table;
 }
 .af_month{
 }
@@ -42,26 +20,12 @@
 	&:nth-child(odd){
 		background: @bg_2;
 	}
-	
-	hr{
-		border: none;
-		padding: 0;
-		margin: 1.3rem;
-		background: none;
-		height: 1px;
-    background: #ddc28d;
-	}
 }
 .af_row_content{
-	  display: flex;
+	    display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: stretch;
-
-	&.invisible{
-		filter: grayscale(1);
-    opacity: 0.5;
-	}
 }
 .af_row_datetime{
 	flex-basis: 120px;
@@ -74,7 +38,7 @@
 }
 .af_row_date{
 	flex-basis: 40px;
-	flex-grow: 7;
+	flex-grow: 2;
 	padding: .5em;
 }
 .af_row_date_val, .af_row_time_val{
@@ -144,30 +108,28 @@
 	font-weight: bold;
 	font-size: 140%;
 	margin: 0 0 .5rem;
-	text-align: center;
 	a{
 		text-decoration: none;
 	}
 }
 
 .af_row_body_autor_type{
-	display: flex;	
-  justify-content: center;
+	display: flex;
 }
 
 .af_row_body_author{
-	/*&:after{
+	&:after{
 		content: ", "
-	}*/
-	padding-right: 0.5em;
+	}
 }
 
 .af_row_body_info{
-	margin: .7rem 0;
+	margin: .5rem 0;
 	width: 100%;
 }
 
 .af_row_body_place{
+	padding-top: 1.7rem;
 }
 
 .af_row_panel{
@@ -230,13 +192,5 @@
 	.af_row_time_val,
 	.af_row_date_val{
 		font-size: 140%;
-	}
-	
-	.af_row_body_min{
-		display: none;
-	}
-	.af_row_body_max{
-		width: 100%;
-		display: block;
 	}
 }
