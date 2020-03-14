@@ -6,8 +6,9 @@
 	//require('instagram_post.php');
 	//$SiteURL='http://'.$_SERVER['HTTP_HOST'];
 	if($_SESSION[stat]>6){
-		require_once("edit.html");
+		include("edit.html");
 	} else {
-		require_once("show.html");
+		//require_once("show.html");
+		include("../afisha/afisha_form.php");
 	}
 ?>
