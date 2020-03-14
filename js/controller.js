@@ -1,3 +1,18 @@
+function catchUrl(){
+	//catch url hash
+	let sId = location.hash.replace("#","");
+	if(sId){
+		let oItem = document.querySelector(`#${sId}`);
+		if (oItem) {
+			oItem.scrollIntoView({
+				behavior: 'smooth',
+				block: 'start'
+			});
+			 history.pushState("", document.title, window.location.pathname + window.location.search);
+		}
+	}
+}
+
 Vue.component('modalWin', {
 	props: {
 		title: {
@@ -232,7 +247,7 @@ Vue.component('af_editor', {
 			localPlace: "",
 			localAge: "",
 			localInfo: undefined,
-			localanons: false
+			localAnons: true
 		};
 	},
 	methods: {
@@ -265,7 +280,7 @@ Vue.component('af_editor', {
 				coste: this.innerCoste,
 				age_limit: this.innerAge,
 				mode: this.mode,
-				anons: this.inneranons
+				anons: this.innerAnons
 			};
 			this.$emit('submit', oData);
 		},
@@ -348,7 +363,7 @@ Vue.component('af_editor', {
 		},
 		innerAnons: {
 			get: function() {
-				return this.localAnons || this.anons;
+				return this.localAnons!=undefined? this.localAnons : this.anons;
 			},
 			set: function(sVal) {
 				this.localAnons = sVal;
@@ -725,6 +740,7 @@ Vue.component('af_item', {
 });
 
 $(document).ready(function(){	
+	catchUrl();
 var app = new Vue({
 	el: '#app',
 	data: {
@@ -865,19 +881,7 @@ var app = new Vue({
 		
 	},
 	updated: function() {
-		//catch url hash
-		let sId = location.hash.replace("#","");
-		if(sId){
-			let oItem = document.querySelector(`#${sId}`);
-			if (oItem) {
-				oItem.scrollIntoView({
-					behavior: 'smooth',
-					block: 'start'
-				});
-				 history.pushState("", document.title, window.location.pathname + window.location.search);
-			}
-		}
-		
+		catchUrl();		
 	},
 	
 	created: function(){

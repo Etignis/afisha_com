@@ -8,7 +8,9 @@
 	if($_SESSION[stat]>6){
 		include("edit.html");
 	} else {
-		//require_once("show.html");
-		include("../afisha/afisha_form.php");
+		// include("show.html");
+		include "afisha_class.php"; // подключаем класс
+		$ret=new afisha();          // создаем экземпляр
+		echo $ret->show();          // печатаем
 	}
 ?>
