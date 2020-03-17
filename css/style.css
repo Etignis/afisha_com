@@ -289,57 +289,25 @@
 .combobox_list li:hover {
   background: #dcdcfa;
 }
-[v-cloak] {
-  display: none;
-}
-.afisha_empty {
-  padding: 1rem;
-  font-size: 120%;
-  text-align: center;
-  background: rgba(187, 165, 106, 0.25);
-  margin: 0.3rem 0 0.5rem;
-  font-style: italic;
-}
-.af_h2 {
-  font-size: 22px;
-  font-weight: bold;
-  color: #442200;
-  border-bottom: 1px dotted;
-  margin: 1rem auto 0.5rem;
-  padding: 0;
-  display: table;
-}
 .af_month_title_val {
   font-weight: bold;
   text-transform: uppercase;
-  background: rgba(102, 0, 153, 0.14);
+  background: rgba(102, 0, 153, 0.19);
   padding: 1em;
   text-align: center;
 }
 .af_row {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 217, 157, 0.25);
   padding: .5rem 0;
 }
 .af_row:nth-child(odd) {
-  background: rgba(187, 165, 106, 0.25);
-}
-.af_row hr {
-  border: none;
-  padding: 0;
-  margin: 1.3rem;
-  background: none;
-  height: 1px;
-  background: #ddc28d;
+  background: rgba(255, 157, 157, 0.25);
 }
 .af_row_content {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: stretch;
-}
-.af_row_content.invisible {
-  filter: grayscale(1);
-  opacity: 0.5;
 }
 .af_row_datetime {
   flex-basis: 120px;
@@ -352,7 +320,7 @@
 }
 .af_row_date {
   flex-basis: 40px;
-  flex-grow: 7;
+  flex-grow: 2;
   padding: .5em;
 }
 .af_row_date_val,
@@ -376,6 +344,7 @@
   padding: .5em;
   flex-grow: 1;
   flex-shrink: 4;
+  position: relative;
 }
 .af_row_body_max {
   display: none;
@@ -415,24 +384,24 @@
   font-weight: bold;
   font-size: 140%;
   margin: 0 0 .5rem;
-  text-align: center;
 }
 .af_row_body_min a {
   text-decoration: none;
 }
 .af_row_body_autor_type {
   display: flex;
-  justify-content: center;
 }
 .af_row_body_author {
-  /*&:after{
-		content: ", "
-	}*/
-  padding-right: 0.5em;
+  /* &:after{ */
+  /* content: ", " */
+  /* } */
 }
 .af_row_body_info {
-  margin: .7rem 0;
+  margin: .5rem 0;
   width: 100%;
+}
+.af_row_body_place {
+  padding-top: 1.7rem;
 }
 .af_row_panel {
   text-align: right;
@@ -486,16 +455,45 @@
   border-color: #2a692d;
   outline: none;
 }
+div[data-stat='cancelled'] {
+  background: rgba(187, 106, 106, 0.25);
+}
+div[data-stat='cancelled'] .show_stat:before {
+  --color: red;
+  content: "Отмена";
+  font-size: 200%;
+  border: 5px solid var(--color);
+  border-radius: 5px;
+  color: var(--color);
+  font-weight: bold;
+  padding: .3rem;
+  opacity: 0.5;
+  margin: 1rem 0;
+  display: table;
+}
 @media screen and (min-width: 600px) {
   .af_row_time_val,
   .af_row_date_val {
     font-size: 140%;
   }
+  div[data-stat='cancelled'] .show_stat:before {
+    --color: red;
+    font-size: 200%;
+    position: absolute;
+    right: 0.5rem;
+    bottom: 1.1rem;
+    border: 5px solid var(--color);
+    border-radius: 5px;
+    color: var(--color);
+    font-weight: bold;
+    padding: .3rem;
+    transform: rotate(-10deg);
+    opacity: 0.5;
+  }
   .af_row_body_min {
     display: none;
   }
   .af_row_body_max {
-    width: 100%;
     display: block;
   }
 }

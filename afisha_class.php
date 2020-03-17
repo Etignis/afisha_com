@@ -18,9 +18,10 @@ class afisha_item {
  public $coste; 
  public $age_limit;
  public $anons;
+ public $stat;
  
   
- public function show($id, $play, $play_id, $date, $time, $info, $autor, $style, $link, $link_state, $img, $title, $insta, $img_meta, $af_age_limit, $place, $coste) {
+ public function show($id, $play, $play_id, $date, $time, $info, $autor, $style, $link, $link_state, $img, $title, $insta, $img_meta, $af_age_limit, $place, $coste, $stat) {
   $this->id         = $id;
   $this->play       = $play;
   $this->play_id    = $play_id;
@@ -28,7 +29,7 @@ class afisha_item {
   $this->dt         = $date;
   $this->tm         = $time;
   $this->info       = $info;
-  $this->autor     = $autor;
+  $this->autor     	= $autor;
   $this->style      = $style;
   $this->link       = $link;
   $this->link_state = $link_state;
@@ -38,6 +39,7 @@ class afisha_item {
   $this->age_limit  = $af_age_limit;
   $this->place  	  = $place;
   $this->coste  	  = $coste;
+  $this->stat  	  	= $stat;
   
   $l_yy  =  substr($this->dt,0,4);  // Год
   $l_mm  =  substr($this->dt,5,2);  // Месяц
@@ -68,8 +70,10 @@ class afisha_item {
   $edit="";
 	
 	$id_date = "date_".$l_yy."-".$l_mm."-".$l_dd;
+	
+	$line_stat = ($this->stat == 2)? " data-stat='cancelled'" : "";
 
-  $ret.="<div class='af_row'>
+  $ret.="<div class='af_row' ".$line_stat.">
 					<span id='".$id_date."'></span>
 					<div class='af_row_viewer'><div class='af_row_content'".$item_id.">
 					<div class='af_row_datetime'>
@@ -105,6 +109,7 @@ class afisha_item {
 						<div class='af_row_body_place'><i class='fas fa-map-marker-alt' style='min-width: 1.5rem'></i> ".$this->place."</div> 
 						<div class='af_row_body_coste'><i class='fas fa-money-bill-alt' style='min-width: 1.5rem'></i> ".$this->coste."</div>
 						<div class='af_row_body_age_limit'><i class='fas fa-user-clock' style='min-width: 1.5rem'></i> ".$this->age_limit."+</div>
+						<div class='show_stat'></div>
 					</div>
         </div></div></div>";
   $ret.=$edit;		
@@ -163,7 +168,8 @@ class afisha {
 				img_ver,
 				af_age_limit,
 				place,
-				coste
+				coste,
+				stat
 			FROM 
 				afisha 
 			LEFT JOIN 
@@ -207,7 +213,8 @@ class afisha {
 				null,
 				$line[af_age_limit],
 				$line[place],
-				$line[coste]
+				$line[coste],
+				$line[stat]
 			);
 			$aMetaImg[] = $line[img_meta];
 		} 
@@ -226,11 +233,11 @@ class afisha {
 	
 	private function show_inner_other() {
 		$ret="";
-		if($_SESSION[stat]>666) {
-			$query="SELECT id, play, play_id, af_title, af_date, af_time, info, autor, style, link, link_state, img FROM afisha LEFT JOIN plays USING(play_id) WHERE (stat!=0 AND af_date<DATE_FORMAT(NOW(), '%Y-%m-%d ')) ORDER BY id DESC LIMIT 4";
-		} else {
-			$query="SELECT id, play, play_id, af_title, af_date, af_time, info, autor, style, link, link_state, img, af_kind FROM afisha LEFT JOIN plays USING(play_id) WHERE (stat!=0 AND af_date>=DATE_FORMAT(NOW(), '%Y-%m-%d ') AND af_kind=1) ORDER BY af_date, af_time";        // подключение афиши 
-		}
+		// if($_SESSION[stat]>666) {
+			// $query="SELECT id, play, play_id, af_title, af_date, af_time, info, autor, style, link, link_state, img FROM afisha LEFT JOIN plays USING(play_id) WHERE (stat!=0 AND af_date<DATE_FORMAT(NOW(), '%Y-%m-%d ')) ORDER BY id DESC LIMIT 4";
+		// } else {
+			$query="SELECT id, play, play_id, af_title, af_date, af_time, info, autor, style, link, link_state, img, af_kind, stat FROM afisha LEFT JOIN plays USING(play_id) WHERE (stat!=0 AND af_date>=DATE_FORMAT(NOW(), '%Y-%m-%d ') AND af_kind=1) ORDER BY af_date, af_time";        // подключение афиши 
+		// }
 		$result = mysql_query($query) or die("i'm dead");
 		while($line=mysql_fetch_array($result)) {
 			// показать месяц (если нужно)
@@ -239,7 +246,29 @@ class afisha {
 			//  создаем объект
 			$item=new afisha_item();
 			//  печатаем объект
-			$ret.= $item->show($line[id], $line[play], $line[play_id], $line[af_date], $line[af_time], $line[info], $line[autor], $line[style], $line[link], $line[link_state], $line[img], $line[af_title]);
+			// $ret.= $item->show($line[id], $line[play], $line[play_id], $line[af_date], $line[af_time], $line[info], $line[autor], $line[style], $line[link], $line[link_state], $line[img], $line[af_title],
+				// $line[stat]);
+				
+			$ret.= $item->show(
+				$line[id], 
+				$line[play], 
+				$line[play_id], 
+				$line[af_date], 
+				$line[af_time], 
+				$line[info], 
+				$line[autor], 
+				$line[style], 
+				$line[link], 
+				$line[link_state], 
+				$img, 
+				$line[af_title], 
+				$line[insta], 
+				null,
+				$line[af_age_limit],
+				$line[place],
+				$line[coste],
+				$line[stat]
+			);
 		} 
 		
 		if($ret!='') {

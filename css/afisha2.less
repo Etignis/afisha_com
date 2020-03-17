@@ -64,6 +64,7 @@
 	padding: .5em;
 	flex-grow: 1;
 	flex-shrink: 4;
+	position: relative;
 }
 .af_row_body_max{
 	display: none;
@@ -118,9 +119,9 @@
 }
 
 .af_row_body_author{
-	&:after{
-		content: ", "
-	}
+	/* &:after{ */
+		/* content: ", " */
+	/* } */
 }
 
 .af_row_body_info{
@@ -186,11 +187,50 @@
 		outline: none;
 	}
 }
+div[data-stat='cancelled']{
+	background: rgba(187, 106, 106, 0.25);
+}
+div[data-stat='cancelled'] .show_stat:before {
+	--color: red;
+	content: "Отмена";
+	font-size: 200%;
+	
+	border: 5px solid var(--color);
+	border-radius: 5px;
+	color: var(--color);
+	font-weight: bold;
+	padding: .3rem;
+	
+	opacity: 0.5;
+	margin: 1rem 0;
+  display: table;
+}
 
 
 @media screen and (min-width: 600px) {
 	.af_row_time_val,
 	.af_row_date_val{
 		font-size: 140%;
+	}
+	div[data-stat='cancelled'] .show_stat:before { 
+		--color: red;
+		font-size: 200%;
+		position: absolute;
+		right: 0.5rem;
+		bottom: 1.1rem;
+		border: 5px solid var(--color);
+		border-radius: 5px;
+		color: var(--color);
+		font-weight: bold;
+		padding: .3rem;
+		transform: rotate(-10deg);
+		opacity: 0.5;
+	}
+	
+	.af_row_body_min{
+		display: none;
+	}
+	.af_row_body_max{
+		display: block;
 	}
 }
