@@ -657,12 +657,15 @@ Vue.component('af_item', {
 		},
 		af_row_id: function(){
 			return `date_${this.dt}`
+		},
+		stat_cancelled: function(){
+			return this.stat==2? "cancelled":"";
 		}
 	},
 	created: function(){
 		
 	},
-	template: `<article class='af_row'>
+	template: `<article class='af_row' :data-stat=stat_cancelled>
 	<span :id='af_row_id'></span>
 	<div class='af_row_viewer' v-show="shown">
 		<div :class='af_row_content_class'>		
@@ -712,6 +715,8 @@ Vue.component('af_item', {
 				<div class='af_row_body_coste' v-html="formatted_coste">
 				</div>
 				<div class='af_row_body_age_limit' v-html="formatted_age_limit">
+				</div>
+				<div class="show_stat">
 				</div>
 			</div>
 		</div>

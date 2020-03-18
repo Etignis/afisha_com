@@ -73,7 +73,7 @@ class afisha_item {
 	
 	$line_stat = ($this->stat == 2)? " data-stat='cancelled'" : "";
 
-  $ret.="<div class='af_row' ".$line_stat.">
+  $ret.="<article class='af_row' ".$line_stat.">
 					<span id='".$id_date."'></span>
 					<div class='af_row_viewer'><div class='af_row_content'".$item_id.">
 					<div class='af_row_datetime'>
@@ -98,7 +98,7 @@ class afisha_item {
 						</div> 
 						<div class='af_row_body_autor_type'>
 							<div class='af_row_body_author'>
-								".$this->autor.", 
+								".$this->autor.",
 							</div> 
 							<div class='af_row_body_type'>
 								".$style."
@@ -111,7 +111,7 @@ class afisha_item {
 						<div class='af_row_body_age_limit'><i class='fas fa-user-clock' style='min-width: 1.5rem'></i> ".$this->age_limit."+</div>
 						<div class='show_stat'></div>
 					</div>
-        </div></div></div>";
+        </div></div></article>";
   $ret.=$edit;		
 	  
   return $ret;	  
