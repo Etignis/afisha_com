@@ -538,6 +538,10 @@ Vue.component('af_item', {
 			type: String,
 			default: ""
 		},
+		achtung: {
+			type: String,
+			default: ""
+		},
 		autor: {
 			type: String,
 			default: ""
@@ -660,6 +664,9 @@ Vue.component('af_item', {
 		},
 		stat_cancelled: function(){
 			return this.stat==2? "cancelled":"";
+		},
+		show_achtung: function(){
+			return this.achtung.length>0;
 		}
 	},
 	created: function(){
@@ -706,6 +713,10 @@ Vue.component('af_item', {
 				</div>
 				<div class='af_row_body_info' v-html='formattedInfo'>
 			
+				</div>
+				
+				<div v-if="show_achtung" class='af_row_body_achtung'>
+					{{achtung}}
 				</div>
 				
 				<hr>				

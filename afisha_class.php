@@ -8,6 +8,7 @@ class afisha_item {
  public $dt;
  public $tm;
  public $info;
+ public $achtung;
  public $autor;
  public $style;
  public $link;
@@ -21,7 +22,7 @@ class afisha_item {
  public $stat;
  
   
- public function show($id, $play, $play_id, $date, $time, $info, $autor, $style, $link, $link_state, $img, $title, $insta, $img_meta, $af_age_limit, $place, $coste, $stat) {
+ public function show($id, $play, $play_id, $date, $time, $info, $achtung, $autor, $style, $link, $link_state, $img, $title, $insta, $img_meta, $af_age_limit, $place, $coste, $stat) {
   $this->id         = $id;
   $this->play       = $play;
   $this->play_id    = $play_id;
@@ -29,6 +30,7 @@ class afisha_item {
   $this->dt         = $date;
   $this->tm         = $time;
   $this->info       = $info;
+  $this->achtung    = $achtung;
   $this->autor     	= $autor;
   $this->style      = $style;
   $this->link       = $link;
@@ -61,6 +63,8 @@ class afisha_item {
   //$more=($this->info!=""?"<span class='podr'>подробнее...</span><div class='more'>".$this->info."</div>":""); // [дополнительная информация] 
   $more = $this->info;
 	$more=($this->info!="")? ("<div class='af_row_body_info'>".$this->info."</div> ") : "";
+	
+	$achtung_text = ($this->achtung!="")?("<div class='af_row_body_achtung'>".$this->achtung."</div> ") : "";
 	
 	$title = (strlen($this->title)>0)? "<b>".$this->title."</b>" : "";
 	$header = (strlen($image)>0)? $image : $title;
@@ -105,6 +109,7 @@ class afisha_item {
 							</div>
 						</div> 
 						".$more."
+						".$achtung_text."
 						<hr> 
 						<div class='af_row_body_place'><i class='fas fa-map-marker-alt' style='min-width: 1.5rem'></i> ".$this->place."</div> 
 						<div class='af_row_body_coste'><i class='fas fa-money-bill-alt' style='min-width: 1.5rem'></i> ".$this->coste."</div>
@@ -157,6 +162,7 @@ class afisha {
 				af_date, 
 				af_time, 
 				info, 
+				achtung,
 				autor, 
 				style, 
 				link, 
@@ -203,6 +209,7 @@ class afisha {
 				$line[af_date], 
 				$line[af_time], 
 				$line[info], 
+				$line[achtung], 
 				$line[autor], 
 				$line[style], 
 				$line[link], 
@@ -236,7 +243,7 @@ class afisha {
 		// if($_SESSION[stat]>666) {
 			// $query="SELECT id, play, play_id, af_title, af_date, af_time, info, autor, style, link, link_state, img FROM afisha LEFT JOIN plays USING(play_id) WHERE (stat!=0 AND af_date<DATE_FORMAT(NOW(), '%Y-%m-%d ')) ORDER BY id DESC LIMIT 4";
 		// } else {
-			$query="SELECT id, play, play_id, af_title, af_date, af_time, info, autor, style, link, link_state, img, af_kind, stat FROM afisha LEFT JOIN plays USING(play_id) WHERE (stat!=0 AND af_date>=DATE_FORMAT(NOW(), '%Y-%m-%d ') AND af_kind=1) ORDER BY af_date, af_time";        // подключение афиши 
+			$query="SELECT id, play, play_id, af_title, af_date, af_time, info,achtung, autor, style, link, link_state, img, af_kind, stat FROM afisha LEFT JOIN plays USING(play_id) WHERE (stat!=0 AND af_date>=DATE_FORMAT(NOW(), '%Y-%m-%d ') AND af_kind=1) ORDER BY af_date, af_time";        // подключение афиши 
 		// }
 		$result = mysql_query($query) or die("i'm dead");
 		while($line=mysql_fetch_array($result)) {
@@ -255,7 +262,8 @@ class afisha {
 				$line[play_id], 
 				$line[af_date], 
 				$line[af_time], 
-				$line[info], 
+				$line[info],  
+				$line[achtung], 
 				$line[autor], 
 				$line[style], 
 				$line[link], 

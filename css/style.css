@@ -347,7 +347,7 @@
   position: relative;
 }
 .af_row_body hr {
-  height: 1rem;
+  height: .5rem;
 }
 .af_row_body_max {
   display: none;
@@ -401,6 +401,11 @@
   margin-right: .3rem;
 }
 .af_row_body_info {
+  margin: .5rem 0;
+  width: 100%;
+}
+.af_row_body_achtung {
+  color: #d32f2f;
   margin: .5rem 0;
   width: 100%;
 }
@@ -483,12 +488,17 @@ article[data-stat='cancelled'] .show_stat:before {
   .af_row_body_max {
     display: block;
   }
+  .af_row_body_autor_type {
+    text-align: center;
+    justify-content: center;
+    margin: .5rem 0 .8rem;
+  }
   article[data-stat='cancelled'] .show_stat:before {
     --color: red;
     font-size: 200%;
     position: absolute;
     right: 0.1rem;
-    bottom: 1.1rem;
+    bottom: 0;
     border: 5px solid var(--color);
     border-radius: 5px;
     color: var(--color);
